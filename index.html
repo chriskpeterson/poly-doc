@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poly VideoOS Administrator Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root {
+            --sidebar-width: 280px;
+            --header-height: 60px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Admonitions */
+        .admonition {
+            border-left-width: 4px;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .admonition-note {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+            color: #1e3a8a;
+        }
+
+        .admonition-tip {
+            background-color: #f0fdf4;
+            border-color: #22c55e;
+            color: #14532d;
+        }
+
+        .admonition-danger {
+            background-color: #fef2f2;
+            border-color: #ef4444;
+            color: #7f1d1d;
+        }
+        
+        .admonition-warning {
+            background-color: #fff7ed;
+            border-color: #f97316;
+            color: #9a3412;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Navigation Active State */
+        .nav-link.active {
+            color: #4f46e5;
+            background-color: #eef2ff;
+            border-right: 3px solid #4f46e5;
+            font-weight: 600;
+        }
+
+        /* Content Transition */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 2px solid #e2e8f0;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Interactive Text Links */
+        .smart-link {
+            color: #4f46e5;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 2px;
+        }
+
+        .smart-link:hover {
+            color: #4338ca;
+            background-color: #eef2ff;
+        }
+        
+        /* Details/Expandable */
+        .details-content {
+            transition: all 0.3s ease-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .details-content.open {
+            max-height: 2000px;
+            opacity: 1;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+
+<body class="h-screen flex flex-col overflow-hidden">
+
+    <!-- Header -->
+    <header class="h-[60px] border-b border-slate-200 flex items-center justify-between px-6 bg-white z-20 shrink-0">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('intro')">
+            <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
+                <i data-lucide="monitor-play"></i>
+            </div>
+            <span class="font-bold text-lg tracking-tight text-slate-900">Poly VideoOS <span
+                    class="text-slate-400 font-normal">Admin Guide</span></span>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="relative hidden md:block">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                <input type="text" placeholder="Search documentation..."
+                    class="pl-9 pr-4 py-1.5 bg-slate-100 border-none rounded-full text-sm focus:ring-2 focus:ring-indigo-500 outline-none w-64 text-slate-600">
+            </div>
+            <a href="#" class="text-slate-500 hover:text-slate-800 transition-colors">
+                <i data-lucide="help-circle" class="w-5 h-5"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+
+        <!-- Sidebar Navigation -->
+        <aside class="w-[280px] bg-slate-50 border-r border-slate-200 overflow-y-auto shrink-0 hidden md:block">
+            <nav class="p-4 space-y-8">
+
+                <!-- Section 1: Installation -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-3">Installation & Setup</h3>
+                    <ul class="space-y-1">
+                        <li>
+                            <button onclick="showSection('intro')"
+                                class="nav-link w-full text-left px-3 py-2 text-sm text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors flex items-center gap-2 active">
+                                <i data-lucide="book-open" class="w-4 h-4"></i> Overview
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showSection('mounting')"
+                                class="nav-link w-full text-left px-3 py-2 text-sm text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors flex items-center gap-2">
+                                <i data-lucide="hammer" class="w-4 h-4"></i> Mounting & Placement
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showSection('hardware')"
+                                class="nav-link w-full text-left px-3 py-2 text-sm text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors flex items-center gap-2">
+                                <i data-lucide="cpu" class="w-4 h-4"></i> System Hardware
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showSection('cabling')"
+                                class="nav-link w-full text-left px-3 py-2 text-sm text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors flex items-center gap-2">
+                                <i data-lucide="cable" class="w-4 h-4"></i> Cabling & Connections
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showSection('setup')"
+                                class="nav-link w-full text-left px-3 py-2 text-sm text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors flex items-center gap-2">
+                                <i data-lucide="settings-2" class="w-4 h-4"></i> Initial Setup
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Section 2: Advanced Admin -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-3">Advanced Admin</h3>
+                    <ul class="space-y-1">
+                        <li>
+                            <button onclick="showSection('networking')"
+                                class="nav-link w-full text-left px-3 py-2 text-sm text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors flex items-center gap-2">
+                                <i data-lucide="server" class="w-4 h-4"></i> Deep Networking
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showSection('security')"
+                                class="nav-link w-full text-left px-3 py-2 text-sm text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors flex items-center gap-2">
+                                <i data-lucide="shield-check" class="w-4 h-4"></i> Security & Certs
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showSection('av_config')"
+                                class="nav-link w-full text-left px-3 py-2 text-sm text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors flex items-center gap-2">
+                                <i data-lucide="video" class="w-4 h-4"></i> Audio & Video Config
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showSection('providers')"
+                                class="nav-link w-full text-left px-3 py-2 text-sm text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors flex items-center gap-2">
+                                <i data-lucide="app-window" class="w-4 h-4"></i> Provider Specifics
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showSection('provisioning')"
+                                class="nav-link w-full text-left px-3 py-2 text-sm text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors flex items-center gap-2">
+                                <i data-lucide="cloud" class="w-4 h-4"></i> Poly Lens
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Section 3: Maintenance -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-3">Maintenance</h3>
+                    <ul class="space-y-1">
+                        <li>
+                            <button onclick="showSection('updates')"
+                                class="nav-link w-full text-left px-3 py-2 text-sm text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors flex items-center gap-2">
+                                <i data-lucide="download-cloud" class="w-4 h-4"></i> Software Updates
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="showSection('troubleshooting')"
+                                class="nav-link w-full text-left px-3 py-2 text-sm text-slate-600 rounded-r-md hover:bg-slate-100 transition-colors flex items-center gap-2">
+                                <i data-lucide="wrench" class="w-4 h-4"></i> Troubleshooting
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto bg-white p-8 md:p-12 scroll-smooth">
+            <div class="max-w-5xl mx-auto">
+
+                <!-- CONTENT: Introduction -->
+                <article id="intro" class="content-section active">
+                    <h1 class="text-4xl font-bold text-slate-900 mb-4">Poly VideoOS Integrator Guide</h1>
+                    <p class="text-xl text-slate-600 mb-8 leading-relaxed">
+                        A comprehensive reference for AV Integrators installing, configuring, and tuning Poly G7500, Studio G62, and Studio X Family systems.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                        <div class="border border-slate-200 bg-slate-50 rounded-xl p-6 hover:border-indigo-500 transition-colors cursor-pointer"
+                            onclick="showSection('cabling')">
+                            <i data-lucide="cable" class="w-8 h-8 text-indigo-600 mb-4"></i>
+                            <h3 class="font-bold text-lg mb-2">Cabling Diagrams</h3>
+                            <p class="text-sm text-slate-500">Port layouts for G7500, G62, and Studio X.</p>
+                        </div>
+                        <div class="border border-slate-200 bg-slate-50 rounded-xl p-6 hover:border-indigo-500 transition-colors cursor-pointer"
+                            onclick="showSection('audio_config')">
+                            <i data-lucide="mic" class="w-8 h-8 text-indigo-600 mb-4"></i>
+                            <h3 class="font-bold text-lg mb-2">Audio Tuning</h3>
+                            <p class="text-sm text-slate-500">DSP setup, NoiseBlockAI, and IP Microphones.</p>
+                        </div>
+                        <div class="border border-slate-200 bg-slate-50 rounded-xl p-6 hover:border-indigo-500 transition-colors cursor-pointer"
+                            onclick="showSection('video_config')">
+                            <i data-lucide="video" class="w-8 h-8 text-indigo-600 mb-4"></i>
+                            <h3 class="font-bold text-lg mb-2">Video Tuning</h3>
+                            <p class="text-sm text-slate-500">DirectorAI, Tracking Zones, and Multi-Camera.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CONTENT: Audio Configuration -->
+                <article id="audio_config" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Audio Configuration & Tuning</h1>
+                    <p class="text-slate-600 mb-8">
+                        Configure advanced audio processing, external DSPs, and microphone arrays.
+                    </p>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Internal Processing (NoiseBlockAI)</h2>
+                    <div class="bg-white border border-slate-200 rounded-lg p-6 mb-8">
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">NoiseBlockAI</h3>
+                        <p class="text-sm text-slate-600 mb-4">
+                            Machine learning algorithm that suppresses non-speech noise (keyboard typing, paper shuffling, HVAC).
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded text-sm mb-4">
+                            <strong>To Enable:</strong> Audio/Video > Audio > General Audio Settings > <strong>NoiseBlockAI</strong>.
+                        </div>
+                        <div class="admonition admonition-tip">
+                            <strong>Integrator Tip:</strong> If using an external DSP (Shure/QSC), <strong>DISABLE</strong> NoiseBlockAI and Acoustic Fence on the Poly codec to prevent double-processing artifacts.
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Acoustic Fence</h2>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Creates a beam pattern that attenuates audio outside the defined zone. Critical for open workspaces.
+                    </p>
+                    <ul class="list-disc ml-5 mb-6 text-sm text-slate-600 space-y-2">
+                        <li><strong>Narrow (±12°):</strong> Focuses on a single person directly in front.</li>
+                        <li><strong>Medium (±30°):</strong> Good for a small table or huddle room.</li>
+                        <li><strong>Wide (±60°):</strong> Standard conference room coverage.</li>
+                    </ul>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">External Audio (DSP & IP Mics)</h2>
+                    <div class="space-y-4 mb-8">
+                        <div class="border-l-4 border-indigo-500 bg-slate-50 p-4 rounded-r">
+                            <h4 class="font-bold text-sm text-slate-800">USB Audio (Shure/Biamp/QSC)</h4>
+                            <p class="text-sm text-slate-600 mt-1">
+                                1. Connect DSP via USB-A.<br>
+                                2. Go to <strong>Audio/Video > Audio</strong>.<br>
+                                3. Enable <strong>"Enable USB Audio"</strong>.<br>
+                                4. Verify input/output meters are active.
+                            </p>
+                        </div>
+                        <div class="border-l-4 border-emerald-500 bg-slate-50 p-4 rounded-r">
+                            <h4 class="font-bold text-sm text-slate-800">IP Microphones (LLN)</h4>
+                            <p class="text-sm text-slate-600 mt-1">
+                                Connect Poly IP Table/Ceiling mics to the LLN port (G7500) or via PoE switch (G62). Ensure cabling uses CAT5e or better shielded cable.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CONTENT: Video Configuration -->
+                <article id="video_config" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Video Configuration & Tracking</h1>
+                    <p class="text-slate-600 mb-8">
+                        Fine-tune Poly DirectorAI tracking modes and multi-camera behaviors.
+                    </p>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Tracking Modes (DirectorAI)</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="border border-slate-200 rounded-lg p-4">
+                            <h4 class="font-bold text-indigo-700 mb-2">Group Framing</h4>
+                            <p class="text-xs text-slate-600">Frames all participants in the room. Best for general meetings where context is needed.</p>
+                        </div>
+                        <div class="border border-slate-200 rounded-lg p-4">
+                            <h4 class="font-bold text-indigo-700 mb-2">Speaker Framing</h4>
+                            <p class="text-xs text-slate-600">Zooms in on the active speaker. Use for presentations or structured dialogue.</p>
+                        </div>
+                        <div class="border border-slate-200 rounded-lg p-4">
+                            <h4 class="font-bold text-indigo-700 mb-2">People Framing</h4>
+                            <p class="text-xs text-slate-600">Composite view (gallery) of up to 6 individuals. Best for hybrid equity.</p>
+                        </div>
+                        <div class="border border-slate-200 rounded-lg p-4">
+                            <h4 class="font-bold text-indigo-700 mb-2">Presenter Tracking</h4>
+                            <p class="text-xs text-slate-600">Follows a presenter in a specific zone. Requires E70/E60 camera.</p>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Tuning Tracking</h2>
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 mb-8">
+                        <h3 class="font-bold text-sm text-slate-800 mb-3">Settings Location: Audio/Video > Video Inputs</h3>
+                        <ul class="space-y-3 text-sm text-slate-600">
+                            <li><strong>Tracking Speed:</strong> Set to <em>Slow</em> for executive rooms (less jarring), <em>Fast</em> for lively debates.</li>
+                            <li><strong>Framing Size:</strong> <em>Tight</em> for head-and-shoulders, <em>Wide</em> for upper body context.</li>
+                            <li><strong>DirectorAI Perimeter:</strong> Define the depth/width of the tracking zone to exclude glass walls or hallways.</li>
+                        </ul>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Multi-Camera Setup (G7500/G62)</h2>
+                    <p class="text-sm text-slate-600 mb-4">
+                        When using multiple cameras (e.g., E70s) for large rooms:
+                    </p>
+                    <ol class="list-decimal ml-5 text-sm text-slate-600 space-y-2">
+                        <li>Connect cameras via LLN (IP) or USB.</li>
+                        <li>In the Web UI, go to <strong>Audio/Video > Video Inputs</strong>.</li>
+                        <li>Assign cameras to roles (People vs Content).</li>
+                        <li>Use <strong>Camera Priority</strong> to determine which camera acts as the primary view when tracking is idle.</li>
+                    </ol>
+                </article>
+
+                <!-- CONTENT: Mounting & Placement -->
+                <article id="mounting" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Mounting & Room Placement</h1>
+                    
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Video Bar Placement</h2>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mb-8">
+                        <ul class="space-y-4 text-sm text-slate-600">
+                            <li class="flex gap-3">
+                                <i data-lucide="arrow-up-down" class="w-5 h-5 text-indigo-600 shrink-0"></i>
+                                <div>
+                                    <strong>Height:</strong> Ideally eye-level with seated participants (approx 48").
+                                    <br><span class="text-xs text-slate-500">Placement too high (>7ft) causes "security cam" angles. Placement too low looks up noses.</span>
+                                </div>
+                            </li>
+                            <li class="flex gap-3">
+                                <i data-lucide="monitor" class="w-5 h-5 text-indigo-600 shrink-0"></i>
+                                <div>
+                                    <strong>Orientation:</strong>
+                                    <ul class="list-disc ml-4 mt-1">
+                                        <li><strong>Studio X30:</strong> Supports inverted mounting (below display).</li>
+                                        <li><strong>Studio X50 / X52 / X70 / X72:</strong> Must be mounted UPRIGHT. Do not invert.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Codec Ventilation</h2>
+                    <div class="admonition admonition-warning">
+                        <strong>Important:</strong> Poly G7500 and Studio G62 are modular codecs that generate heat.
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Do not stack these units directly on top of other warm equipment. Ensure at least 1U of rack space or free airflow if mounted behind a display.
+                    </p>
+                </article>
+
+                <!-- CONTENT: Hardware Overview -->
+                <article id="hardware" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">System Hardware Ports</h1>
+                    <p class="text-slate-600 mb-8">
+                        Identify the ports on your system before beginning cabling.
+                    </p>
+
+                    <!-- Studio X50 / X52 -->
+                    <div class="mb-10">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-4">Poly Studio X50 / X52 Ports</h2>
+                        <div class="border border-slate-200 rounded-lg overflow-hidden">
+                            <div class="bg-slate-50 p-4 border-b border-slate-200 flex items-center justify-between">
+                                <span class="font-bold text-sm text-slate-700">Back Panel Layout</span>
+                            </div>
+                            <div class="p-6">
+                                <ul class="space-y-3 text-sm">
+                                    <li class="flex gap-3"><span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-indigo-600 font-bold">1</span> <strong>Power:</strong> Connects the supplied power supply.</li>
+                                    <li class="flex gap-3"><span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-indigo-600 font-bold">2</span> <strong>LAN:</strong> RJ-45 Ethernet port for network connection.</li>
+                                    <li class="flex gap-3"><span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-indigo-600 font-bold">3</span> <strong>HDMI In:</strong> Content sharing input (PC/Mac).</li>
+                                    <li class="flex gap-3"><span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-indigo-600 font-bold">4</span> <strong>HDMI Out 1 (Primary):</strong> Main room display (People/Content).</li>
+                                    <li class="flex gap-3"><span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-indigo-600 font-bold">5</span> <strong>HDMI Out 2 (Secondary):</strong> Optional second display.</li>
+                                    <li class="flex gap-3"><span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-indigo-600 font-bold">6</span> <strong>USB-A (x2):</strong> For peripherals (Touch monitors, USB cameras, Flash drives).</li>
+                                    <li class="flex gap-3"><span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-indigo-600 font-bold">7</span> <strong>USB-C:</strong> For PC connection (Device Mode).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- G7500 -->
+                    <div class="mb-10">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-4">Poly G7500 Ports</h2>
+                        <div class="border border-slate-200 rounded-lg overflow-hidden">
+                            <div class="bg-slate-50 p-4 border-b border-slate-200 flex items-center justify-between">
+                                <span class="font-bold text-sm text-slate-700">Back Panel Layout</span>
+                            </div>
+                            <div class="p-6">
+                                <ul class="space-y-3 text-sm">
+                                    <li class="flex gap-3"><span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-indigo-600 font-bold">LLN</span> <strong>Link-Local Network (x3):</strong> RJ-45 ports specifically for IP peripherals (Poly IP Mics, Studio E70, TC8/TC10). <span class="text-xs bg-red-100 text-red-800 px-1 rounded ml-1">Do not connect to LAN</span></li>
+                                    <li class="flex gap-3"><span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-indigo-600 font-bold">LAN</span> <strong>System LAN:</strong> Connection to corporate network.</li>
+                                    <li class="flex gap-3"><span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-indigo-600 font-bold">HDCI</span> <strong>Camera In:</strong> For EagleEye IV cameras.</li>
+                                    <li class="flex gap-3"><span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-indigo-600 font-bold">Audio</span> <strong>3.5mm In/Out:</strong> For analog audio integration.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CONTENT: Cabling -->
+                <article id="cabling" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Cabling & Connections</h1>
+
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">1. Connecting Monitors (HDMI)</h3>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Poly systems support dual monitors. Monitor 1 is the primary display.
+                    </p>
+                    <ul class="list-disc ml-5 mb-6 text-sm text-slate-600 space-y-2">
+                        <li>Connect the first monitor to <strong>HDMI Out 1</strong>. This will display the UI and main video.</li>
+                        <li>(Optional) Connect the second monitor to <strong>HDMI Out 2</strong>. This is typically used for Content or spreading out far-end participants.</li>
+                        <li><strong>Note:</strong> Poly X30 only supports one monitor output.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">2. Connecting Network (LAN)</h3>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Wired LAN is recommended for the best video quality.
+                    </p>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm mb-6">
+                        <strong>Standard Connection:</strong> Plug a CAT5e/CAT6 cable from your network switch into the port labeled <strong>LAN</strong> on the codec.
+                    </div>
+
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">3. Connecting the Touch Controller (TC10 / TC8)</h3>
+                    <p class="text-sm text-slate-600 mb-2">
+                        The touch controller is powered via PoE (Power over Ethernet).
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="border border-slate-200 p-4 rounded-lg">
+                            <h4 class="font-bold text-indigo-700 mb-2">Method A: Direct to Room Port</h4>
+                            <p class="text-xs text-slate-500">Connect the TC10/TC8 to a PoE-enabled wall jack on the <strong>same subnet</strong> as the video bar. This is the most common deployment.</p>
+                        </div>
+                        <div class="border border-slate-200 p-4 rounded-lg">
+                            <h4 class="font-bold text-indigo-700 mb-2">Method B: Direct to G7500 LLN</h4>
+                            <p class="text-xs text-slate-500">If using a G7500, you can plug the controller directly into one of the <strong>LLN</strong> ports on the back of the codec.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CONTENT: Setup -->
+                <article id="setup" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Initial Setup (Out-of-Box)</h1>
+                    <p class="text-slate-600 mb-8">
+                        Once hardware is installed and powered on, follow this workflow to configure the system.
+                    </p>
+
+                    <div class="relative border-l-2 border-indigo-200 ml-4 pl-10 space-y-10 pb-12">
+                        <!-- Step 1 -->
+                        <div class="relative">
+                            <span class="absolute -left-[54px] top-0 w-8 h-8 bg-indigo-600 rounded-full text-white text-sm flex items-center justify-center font-bold">1</span>
+                            <h3 class="font-bold text-slate-800 mb-2">Power On</h3>
+                            <p class="text-sm text-slate-600">The system LED will pulse white while booting. The monitor will display the Poly logo, followed by the Welcome screen.</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="relative">
+                            <span class="absolute -left-[54px] top-0 w-8 h-8 bg-indigo-600 rounded-full text-white text-sm flex items-center justify-center font-bold">2</span>
+                            <h3 class="font-bold text-slate-800 mb-2">Pair the Controller</h3>
+                            <p class="text-sm text-slate-600 mb-2">On the TC10 or TC8, the device should automatically detect the codec if they are on the same subnet.</p>
+                            <div class="bg-yellow-50 border border-yellow-200 p-3 rounded text-xs text-yellow-800">
+                                <strong>Troubleshooting:</strong> If the controller does not find the codec, you can manually pair by entering the IP address displayed on the TV monitor.
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="relative">
+                            <span class="absolute -left-[54px] top-0 w-8 h-8 bg-indigo-600 rounded-full text-white text-sm flex items-center justify-center font-bold">3</span>
+                            <h3 class="font-bold text-slate-800 mb-2">Choose a Provider</h3>
+                            <p class="text-sm text-slate-600 mb-2">Select your primary conferencing application. The system will reboot into this mode.</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs font-mono text-indigo-700">
+                                <div class="bg-indigo-50 p-2 rounded text-center">Poly Video Mode</div>
+                                <div class="bg-indigo-50 p-2 rounded text-center">Microsoft Teams Rooms</div>
+                                <div class="bg-indigo-50 p-2 rounded text-center">Zoom Rooms</div>
+                                <div class="bg-indigo-50 p-2 rounded text-center">Google Meet</div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="relative">
+                            <span class="absolute -left-[54px] top-0 w-8 h-8 bg-indigo-600 rounded-full text-white text-sm flex items-center justify-center font-bold">4</span>
+                            <h3 class="font-bold text-slate-800 mb-2">Region & Security</h3>
+                            <ul class="list-disc ml-5 text-sm text-slate-600 space-y-1">
+                                <li><strong>Country:</strong> Select correct country for Wi-Fi regulatory compliance.</li>
+                                <li><strong>Admin Password:</strong> You will be prompted to change the default password (last 6 digits of serial number). <strong>Do not skip this step.</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CONTENT: Deep Networking -->
+                <article id="networking" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Deep Networking Configuration</h1>
+                    <p class="text-slate-600 mb-8">
+                        Comprehensive network requirements for firewalls, VLANs, and proxies.
+                    </p>
+
+                    <!-- Port Usage -->
+                    <div class="mb-10">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-4">Firewall Port Requirements</h2>
+                        <div class="overflow-x-auto border border-slate-200 rounded-lg">
+                            <table class="w-full">
+                                <thead class="bg-slate-50">
+                                    <tr>
+                                        <th class="px-4 py-2 border-b">Port</th>
+                                        <th class="px-4 py-2 border-b">Protocol</th>
+                                        <th class="px-4 py-2 border-b">Direction</th>
+                                        <th class="px-4 py-2 border-b">Function</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-sm text-slate-700">
+                                    <tr>
+                                        <td class="px-4 py-2 border-b font-mono">443</td>
+                                        <td class="px-4 py-2 border-b">TCP</td>
+                                        <td class="px-4 py-2 border-b">Outbound</td>
+                                        <td class="px-4 py-2 border-b">Poly Lens, Provisioning, Firmware, Teams/Zoom</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 border-b font-mono">53</td>
+                                        <td class="px-4 py-2 border-b">UDP</td>
+                                        <td class="px-4 py-2 border-b">Outbound</td>
+                                        <td class="px-4 py-2 border-b">DNS Resolution</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 border-b font-mono">123</td>
+                                        <td class="px-4 py-2 border-b">UDP</td>
+                                        <td class="px-4 py-2 border-b">Outbound</td>
+                                        <td class="px-4 py-2 border-b">NTP (Time Synchronization)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 border-b font-mono">80</td>
+                                        <td class="px-4 py-2 border-b">TCP</td>
+                                        <td class="px-4 py-2 border-b">Inbound</td>
+                                        <td class="px-4 py-2 border-b">HTTP Redirect (redirects to 443)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 border-b font-mono">5060/5061</td>
+                                        <td class="px-4 py-2 border-b">TCP/UDP</td>
+                                        <td class="px-4 py-2 border-b">Bidirectional</td>
+                                        <td class="px-4 py-2 border-b">SIP Signaling (Standard / TLS)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 border-b font-mono">1719/1720</td>
+                                        <td class="px-4 py-2 border-b">UDP/TCP</td>
+                                        <td class="px-4 py-2 border-b">Bidirectional</td>
+                                        <td class="px-4 py-2 border-b">H.323 RAS and Signaling</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 border-b font-mono">16384-32764</td>
+                                        <td class="px-4 py-2 border-b">UDP</td>
+                                        <td class="px-4 py-2 border-b">Bidirectional</td>
+                                        <td class="px-4 py-2 border-b">RTP/RTCP Media Streams (Audio/Video)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 border-b font-mono">802.1x</td>
+                                        <td class="px-4 py-2 border-b">EAP</td>
+                                        <td class="px-4 py-2 border-b">Layer 2</td>
+                                        <td class="px-4 py-2 border-b">Network Authentication (EAP-TLS, PEAP)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="admonition admonition-note mt-4">
+                            <strong>Note:</strong> Microsoft Teams and Zoom have additional specific port requirements. Refer to their respective documentation for IP ranges.
+                        </div>
+                    </div>
+
+                    <!-- Web Proxy -->
+                    <div class="mb-10">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-4">Web Proxy Support</h2>
+                        <p class="text-sm text-slate-600 mb-4">
+                            Poly VideoOS supports web proxies for signaling and HTTPS traffic.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                                <h3 class="font-bold text-indigo-700 mb-2">Supported Protocols</h3>
+                                <ul class="list-disc ml-4 text-sm space-y-1">
+                                    <li><strong>Auto-Discovery:</strong> WPAD via DHCP Option 252.</li>
+                                    <li><strong>PAC Files:</strong> Proxy Auto-Config files (.pac).</li>
+                                    <li><strong>Manual:</strong> Static Proxy IP and Port.</li>
+                                    <li><strong>Auth Methods:</strong> Basic, Digest, NTLMv2.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                                <h3 class="font-bold text-indigo-700 mb-2">Configuration Path</h3>
+                                <p class="text-xs mb-2">Configure via System Web Interface:</p>
+                                <code class="text-xs bg-slate-200 p-1 rounded block">Network > LAN Network > Web Proxy Settings</code>
+                            </div>
+                        </div>
+                        <div class="admonition admonition-tip mt-4">
+                            <strong>Best Practice:</strong> Ensure <code>swupdate.lens.poly.com</code> bypasses inspection or is allow-listed for software updates.
+                        </div>
+                    </div>
+
+                    <!-- VLANs & LLDP -->
+                    <div class="mb-10">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-4">VLANs & LLDP</h2>
+                        <div class="space-y-4">
+                            <div class="border border-slate-200 rounded p-4">
+                                <h3 class="font-bold text-sm text-slate-800">LLDP (Link Layer Discovery Protocol)</h3>
+                                <p class="text-sm text-slate-600 mt-1">Enabled by default. The system advertises itself to the switch to automatically acquire VLAN tagging for Voice/Video if the switch is configured for LLDP-MED.</p>
+                            </div>
+                            <div class="border border-slate-200 rounded p-4">
+                                <h3 class="font-bold text-sm text-slate-800">Manual VLAN Tagging</h3>
+                                <p class="text-sm text-slate-600 mt-1">If LLDP is not used, you can manually set the VLAN ID in <strong>Network > LAN Network > LAN Options</strong>. Valid IDs: 1-4094.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CONTENT: Security -->
+                <article id="security" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Security & Hardening</h1>
+                    <p class="text-slate-600 mb-8">
+                        Poly VideoOS includes enterprise-grade security features. Ensure these are configured for high-security environments.
+                    </p>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Certificates & Encryption</h2>
+                    <div class="bg-white border border-slate-200 rounded-lg p-6 mb-8">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">Certificate Management</h3>
+                        <p class="text-sm text-slate-600 mb-4">
+                            Poly systems ship with a self-signed certificate. For secure environments, you must install a certificate signed by your CA.
+                        </p>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="bg-slate-50 p-4 rounded text-sm">
+                                <strong>SCEP (Simple Certificate Enrollment Protocol):</strong>
+                                <p class="mt-2 text-slate-500">Automates certificate issuance. Requires SCEP server URL and challenge password.</p>
+                                <code class="block mt-2 bg-slate-200 p-2 rounded">Admin Settings > Security > Certificates > SCEP</code>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded text-sm">
+                                <strong>Manual Installation:</strong>
+                                <p class="mt-2 text-slate-500">Supports .pem, .cer, .crt, .pfx, .p12 formats. Ensure you upload the full chain (Root CA > Intermediate > Device).</p>
+                                <code class="block mt-2 bg-slate-200 p-2 rounded">Admin Settings > Security > Certificates</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Network Authentication (802.1x)</h2>
+                    <p class="text-sm text-slate-600 mb-4">
+                        If your network ports are secured via 802.1x, configure the credentials before deploying the unit to the secured port.
+                    </p>
+                    <ul class="list-disc ml-5 mb-6 text-sm text-slate-600 space-y-2">
+                        <li><strong>EAP-TLS:</strong> Requires client certificate (highest security).</li>
+                        <li><strong>EAP-PEAPv0 (MSCHAPv2):</strong> Requires username/password.</li>
+                    </ul>
+                </article>
+
+                <!-- CONTENT: Provider Specifics -->
+                <article id="providers" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Provider Specifics</h1>
+                    <p class="text-slate-600 mb-8">
+                        Specific requirements and workflows for the major partner applications.
+                    </p>
+
+                    <!-- Microsoft Teams -->
+                    <div class="mb-10">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white font-bold">T</div>
+                            <h2 class="text-2xl font-bold text-slate-800">Microsoft Teams Rooms on Android</h2>
+                        </div>
+                        
+                        <div class="admonition admonition-warning">
+                            <div class="font-bold mb-1 flex items-center gap-2"><i data-lucide="alert-circle" class="w-4 h-4"></i> Critical: AOSP Migration</div>
+                            <p class="text-sm">
+                                Starting with <strong>Poly VideoOS 4.5.2</strong>, all Microsoft Teams Rooms on Android devices will automatically migrate from Device Administrator to <strong>AOSP (Android Open Source Project)</strong> management in Intune. 
+                            </p>
+                            <ul class="list-disc ml-5 mt-2 text-sm">
+                                <li>Ensure your Intune environment allows AOSP enrollment.</li>
+                                <li>Microsoft is deprecating the "Company Portal" method.</li>
+                                <li>No action is required on the device itself; the update handles the OS transition.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 mt-4">
+                            <h3 class="font-bold text-slate-800 mb-2 text-sm">Touch Controller Pairing</h3>
+                            <p class="text-sm text-slate-600 mb-2">
+                                For Teams Rooms, the TC10/TC8 must be on the <strong>same subnet</strong> as the codec to pair. Pairing happens <em>inside</em> the Teams application, not just at the OS level.
+                            </p>
+                            <ul class="list-disc ml-5 text-sm text-slate-600">
+                                <li>Sign in to the Codec first.</li>
+                                <li>A pairing code will appear on the TV.</li>
+                                <li>Enter this code on the TC10/TC8 to complete pairing.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Zoom Rooms -->
+                    <div class="mb-10">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 bg-blue-400 rounded flex items-center justify-center text-white font-bold">Z</div>
+                            <h2 class="text-2xl font-bold text-slate-800">Zoom Rooms</h2>
+                        </div>
+                        <ul class="space-y-3 text-sm text-slate-600">
+                            <li class="flex gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5"></i>
+                                <span><strong>ZDM (Zoom Device Management):</strong> Poly devices can be managed directly via the Zoom portal (upgrades, alerts) once signed in.</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5"></i>
+                                <span><strong>Controller vs Scheduler:</strong> The Poly TC10 can be configured as a standalone Scheduler for outside the room, or a Controller for inside the room. This is selectable during the OOBE.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Google Meet -->
+                    <div class="mb-10">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 bg-green-500 rounded flex items-center justify-center text-white font-bold">G</div>
+                            <h2 class="text-2xl font-bold text-slate-800">Google Meet</h2>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-5">
+                            <p class="text-sm text-slate-600 mb-2">
+                                Supported on Studio X30, X50, X52, X70 (Not G7500).
+                            </p>
+                            <ol class="list-decimal ml-5 text-sm text-slate-600 space-y-1">
+                                <li>Boot the system and select Google Meet provider.</li>
+                                <li>A 6-character enrollment code will appear on the screen.</li>
+                                <li>Go to <strong>admin.google.com</strong> > Devices > Google Meet hardware.</li>
+                                <li>Enter the code to enroll the device into your Workspace domain.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CONTENT: Provisioning -->
+                <article id="provisioning" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Poly Lens Provisioning</h1>
+                    <p class="text-slate-600 mb-8">
+                        Poly Lens provides centralized management, monitoring, and insight into your Poly devices.
+                    </p>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Onboarding Methods</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+                                <i data-lucide="cloud" class="w-5 h-5 text-indigo-600"></i> Cloud Pin Code
+                            </h3>
+                            <p class="text-sm text-slate-600 mb-4">The simplest method for individual device onboarding.</p>
+                            <ol class="list-decimal ml-5 text-sm text-slate-600 space-y-1">
+                                <li>In the System Web Interface, go to <strong>Servers > Cloud > Provisioning</strong>.</li>
+                                <li>Copy the <strong>Device Pin</strong>.</li>
+                                <li>Log in to <a href="#" class="text-indigo-600 underline">lens.poly.com</a>.</li>
+                                <li>Go to <strong>Manage > Register Device</strong> and enter the Pin.</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+                                <i data-lucide="server" class="w-5 h-5 text-indigo-600"></i> DHCP Auto-Discovery
+                            </h3>
+                            <p class="text-sm text-slate-600 mb-4">Best for large scale deployments.</p>
+                            <ul class="list-disc ml-5 text-sm text-slate-600 space-y-1">
+                                <li>Configure <strong>DHCP Option 66</strong> or <strong>160</strong> on your network server.</li>
+                                <li>Point the URL to the Poly Lens provisioning server or your private instance.</li>
+                                <li>Devices will automatically fetch credentials on boot.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CONTENT: Updates -->
+                <article id="updates" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Software Updates</h1>
+                    <p class="text-slate-600 mb-6">
+                        Keep your system secure and feature-rich by maintaining the latest Poly VideoOS version.
+                    </p>
+
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Update Methods</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div class="bg-slate-50 p-4 rounded border border-slate-200">
+                            <strong class="block mb-2 text-indigo-700">Via Poly Lens</strong>
+                            <p class="text-xs text-slate-500">Log in to Poly Lens, select the device, and push the update remotely. This is the best method for fleets.</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded border border-slate-200">
+                            <strong class="block mb-2 text-indigo-700">Via Web Interface</strong>
+                            <p class="text-xs text-slate-500">Go to <strong>General Settings > Device Management</strong>. Click "Check for Updates" to pull from the Poly server.</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded border border-slate-200">
+                            <strong class="block mb-2 text-indigo-700">Via USB</strong>
+                            <p class="text-xs text-slate-500">Download the package from Poly Support. Place it on a FAT32 USB drive. Plug into the device.</p>
+                        </div>
+                    </div>
+
+                    <div class="admonition admonition-danger">
+                        <div class="font-bold mb-1 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4"></i> Important</div>
+                        Never power off the device during a software update. The LED will blink amber/yellow during the process.
+                    </div>
+                </article>
+
+                <!-- CONTENT: Troubleshooting -->
+                <article id="troubleshooting" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Troubleshooting & Reset</h1>
+                    
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Common Issues</h3>
+                    <div class="space-y-4 mb-8">
+                        <div class="border-l-4 border-indigo-500 bg-slate-50 p-4 rounded-r">
+                            <h4 class="font-bold text-sm text-slate-800">Controller Not Pairing</h4>
+                            <p class="text-xs text-slate-600 mt-1">Ensure the TC10/TC8 and the Codec are on the <strong>same subnet</strong>. Check that multicast is enabled on the network. You can try manually pairing by entering the Codec IP address into the controller.</p>
+                        </div>
+                        <div class="border-l-4 border-indigo-500 bg-slate-50 p-4 rounded-r">
+                            <h4 class="font-bold text-sm text-slate-800">Black Screen on Monitor</h4>
+                            <p class="text-xs text-slate-600 mt-1">Verify HDMI input on TV. Ensure the cable is plugged into <strong>HDMI Out 1</strong> (the primary output). Try a different HDMI cable.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Factory Reset (Pinhole Method)</h3>
+                    <p class="text-sm text-slate-600 mb-4">
+                        If the system is unresponsive or you need to clear all data, perform a hardware factory reset.
+                    </p>
+                    <ol class="list-decimal ml-5 text-sm text-slate-600 space-y-2">
+                        <li>Unplug the power cable from the device.</li>
+                        <li>Locate the reset pinhole (usually near the USB ports or on the bottom).</li>
+                        <li>Insert a straightened paperclip into the pinhole.</li>
+                        <li><strong>While holding the reset button</strong>, plug the power cable back in.</li>
+                        <li>Continue holding the button for 15 seconds until the LED pulses amber (or blue/amber depending on model).</li>
+                        <li>Release the button. The system will wipe data and reboot to the out-of-box state.</li>
+                    </ol>
+                </article>
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="mt-20 border-t border-slate-200 pt-8 text-center text-slate-400 text-sm">
+                <p>Generated based on Poly VideoOS 4.6.0 documentation.</p>
+                <p class="mt-2">© 2026 Poly Administrator Docs</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Simple client-side routing
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Show target section
+            const target = document.getElementById(sectionId);
+            if (target) {
+                 target.classList.add('active');
+            } else {
+                console.error("Section not found:", sectionId);
+            }
+
+            // Update sidebar active state
+            document.querySelectorAll('.nav-link').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Handle nav link highlighting based on onclick attribute matching sectionId
+            document.querySelectorAll('.nav-link').forEach(el => {
+                if (el.getAttribute('onclick') === `showSection('${sectionId}')`) {
+                    el.classList.add('active');
+                }
+            });
+
+            // Scroll to top
+            document.querySelector('main').scrollTop = 0;
+        }
+
+        // Toggle details for Action Cards
+        function toggleDetails(id) {
+            const content = document.getElementById(id);
+            const icon = content.previousElementSibling.querySelector('i[data-lucide="chevron-down"]');
+
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                if (icon) icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('open');
+                if (icon) icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
