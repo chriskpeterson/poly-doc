@@ -307,151 +307,167 @@
 
                 <!-- CONTENT: Introduction -->
                 <article id="intro" class="content-section active">
-                    <h1 class="text-4xl font-bold text-slate-900 mb-4">Poly VideoOS Administrator Guide</h1>
+                    <h1 class="text-4xl font-bold text-slate-900 mb-4">Poly VideoOS Integrator Guide</h1>
                     <p class="text-xl text-slate-600 mb-8 leading-relaxed">
-                        Complete reference for installing, configuring, and maintaining Poly VideoOS systems (G7500, Studio G62, Studio X Family).
+                        A comprehensive reference for AV Integrators installing, configuring, and tuning Poly G7500, Studio G62, and Studio X Family systems.
                     </p>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                         <div class="border border-slate-200 bg-slate-50 rounded-xl p-6 hover:border-indigo-500 transition-colors cursor-pointer"
-                            onclick="showSection('mounting')">
-                            <i data-lucide="hammer" class="w-8 h-8 text-indigo-600 mb-4"></i>
-                            <h3 class="font-bold text-lg mb-2">Mounting & Placement</h3>
-                            <p class="text-sm text-slate-500">Best practices for room layout, ventilation, and physical installation.</p>
-                        </div>
-                        <div class="border border-slate-200 bg-slate-50 rounded-xl p-6 hover:border-indigo-500 transition-colors cursor-pointer"
                             onclick="showSection('cabling')">
                             <i data-lucide="cable" class="w-8 h-8 text-indigo-600 mb-4"></i>
                             <h3 class="font-bold text-lg mb-2">Cabling Diagrams</h3>
-                            <p class="text-sm text-slate-500">How to connect monitors, LAN, and peripherals to your specific codec.</p>
+                            <p class="text-sm text-slate-500">Port layouts for G7500, G62, and Studio X.</p>
                         </div>
                         <div class="border border-slate-200 bg-slate-50 rounded-xl p-6 hover:border-indigo-500 transition-colors cursor-pointer"
-                            onclick="showSection('setup')">
-                            <i data-lucide="settings-2" class="w-8 h-8 text-indigo-600 mb-4"></i>
-                            <h3 class="font-bold text-lg mb-2">System Setup</h3>
-                            <p class="text-sm text-slate-500">Walkthrough of the Out-of-Box Experience (OOBE) and controller pairing.</p>
+                            onclick="showSection('audio_config')">
+                            <i data-lucide="mic" class="w-8 h-8 text-indigo-600 mb-4"></i>
+                            <h3 class="font-bold text-lg mb-2">Audio Tuning</h3>
+                            <p class="text-sm text-slate-500">DSP setup, NoiseBlockAI, and IP Microphones.</p>
+                        </div>
+                        <div class="border border-slate-200 bg-slate-50 rounded-xl p-6 hover:border-indigo-500 transition-colors cursor-pointer"
+                            onclick="showSection('video_config')">
+                            <i data-lucide="video" class="w-8 h-8 text-indigo-600 mb-4"></i>
+                            <h3 class="font-bold text-lg mb-2">Video Tuning</h3>
+                            <p class="text-sm text-slate-500">DirectorAI, Tracking Zones, and Multi-Camera.</p>
                         </div>
                     </div>
                 </article>
 
-                <!-- CONTENT: Audio & Video Configuration -->
-                <article id="av_config" class="content-section">
-                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Audio & Video Configuration</h1>
+                <!-- CONTENT: Audio Configuration -->
+                <article id="audio_config" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Audio Configuration & Tuning</h1>
                     <p class="text-slate-600 mb-8">
-                        Configure camera tracking, audio processing, and peripheral integration for optimal meeting experiences.
+                        Configure advanced audio processing, external DSPs, and microphone arrays.
                     </p>
 
-                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Camera Tracking (DirectorAI)</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                            <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-                                <i data-lucide="users" class="w-5 h-5 text-indigo-600"></i> Tracking Modes
-                            </h3>
-                            <ul class="space-y-3 text-sm text-slate-600">
-                                <li><strong>Group Framing:</strong> Automatically frames all participants in the room. Ideal for general meetings.</li>
-                                <li><strong>Speaker Framing:</strong> Zooms in on the active speaker. Best for presentations or structured discussions.</li>
-                                <li><strong>People Framing:</strong> Displays individuals in separate composite frames (up to 6 people).</li>
-                                <li><strong>Presenter Tracking:</strong> Follows a presenter moving around the front of the room (Requires Studio E60 or E70).</li>
-                            </ul>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Internal Processing (NoiseBlockAI)</h2>
+                    <div class="bg-white border border-slate-200 rounded-lg p-6 mb-8">
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">NoiseBlockAI</h3>
+                        <p class="text-sm text-slate-600 mb-4">
+                            Machine learning algorithm that suppresses non-speech noise (keyboard typing, paper shuffling, HVAC).
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded text-sm mb-4">
+                            <strong>To Enable:</strong> Audio/Video > Audio > General Audio Settings > <strong>NoiseBlockAI</strong>.
                         </div>
-                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                            <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-                                <i data-lucide="settings" class="w-5 h-5 text-indigo-600"></i> Configuration
-                            </h3>
-                            <p class="text-sm text-slate-600 mb-2">To configure via Web UI:</p>
-                            <code class="block bg-slate-100 p-2 rounded text-xs mb-3">Audio/Video > Video Inputs > Tracking Mode</code>
-                            <p class="text-sm text-slate-600">
-                                You can adjust <strong>Tracking Speed</strong> (Slow, Normal, Fast) and <strong>Framing Size</strong> (Tight, Medium, Wide) to suit the room dynamics.
+                        <div class="admonition admonition-tip">
+                            <strong>Integrator Tip:</strong> If using an external DSP (Shure/QSC), <strong>DISABLE</strong> NoiseBlockAI and Acoustic Fence on the Poly codec to prevent double-processing artifacts.
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Acoustic Fence</h2>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Creates a beam pattern that attenuates audio outside the defined zone. Critical for open workspaces.
+                    </p>
+                    <ul class="list-disc ml-5 mb-6 text-sm text-slate-600 space-y-2">
+                        <li><strong>Narrow (±12°):</strong> Focuses on a single person directly in front.</li>
+                        <li><strong>Medium (±30°):</strong> Good for a small table or huddle room.</li>
+                        <li><strong>Wide (±60°):</strong> Standard conference room coverage.</li>
+                    </ul>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">External Audio (DSP & IP Mics)</h2>
+                    <div class="space-y-4 mb-8">
+                        <div class="border-l-4 border-indigo-500 bg-slate-50 p-4 rounded-r">
+                            <h4 class="font-bold text-sm text-slate-800">USB Audio (Shure/Biamp/QSC)</h4>
+                            <p class="text-sm text-slate-600 mt-1">
+                                1. Connect DSP via USB-A.<br>
+                                2. Go to <strong>Audio/Video > Audio</strong>.<br>
+                                3. Enable <strong>"Enable USB Audio"</strong>.<br>
+                                4. Verify input/output meters are active.
+                            </p>
+                        </div>
+                        <div class="border-l-4 border-emerald-500 bg-slate-50 p-4 rounded-r">
+                            <h4 class="font-bold text-sm text-slate-800">IP Microphones (LLN)</h4>
+                            <p class="text-sm text-slate-600 mt-1">
+                                Connect Poly IP Table/Ceiling mics to the LLN port (G7500) or via PoE switch (G62). Ensure cabling uses CAT5e or better shielded cable.
                             </p>
                         </div>
                     </div>
+                </article>
 
-                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Audio Processing</h2>
-                    <div class="space-y-4 mb-8">
-                        <div class="border border-slate-200 p-4 rounded-lg bg-slate-50">
-                            <h4 class="font-bold text-indigo-700 mb-2">NoiseBlockAI</h4>
-                            <p class="text-sm text-slate-600">Automatically mutes the microphone when no speech is detected and suppresses background noises (keyboard typing, paper shuffling).</p>
-                            <code class="block mt-2 bg-white p-2 rounded text-xs">Audio/Video > Audio > NoiseBlockAI</code>
+                <!-- CONTENT: Video Configuration -->
+                <article id="video_config" class="content-section">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-6">Video Configuration & Tracking</h1>
+                    <p class="text-slate-600 mb-8">
+                        Fine-tune Poly DirectorAI tracking modes and multi-camera behaviors.
+                    </p>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Tracking Modes (DirectorAI)</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="border border-slate-200 rounded-lg p-4">
+                            <h4 class="font-bold text-indigo-700 mb-2">Group Framing</h4>
+                            <p class="text-xs text-slate-600">Frames all participants in the room. Best for general meetings where context is needed.</p>
                         </div>
-                        <div class="border border-slate-200 p-4 rounded-lg bg-slate-50">
-                            <h4 class="font-bold text-indigo-700 mb-2">Acoustic Fence</h4>
-                            <p class="text-sm text-slate-600">Creates a virtual audio boundary. Sounds outside the fence are blocked. Essential for open office spaces.</p>
-                            <code class="block mt-2 bg-white p-2 rounded text-xs">Audio/Video > Audio > Acoustic Fence</code>
+                        <div class="border border-slate-200 rounded-lg p-4">
+                            <h4 class="font-bold text-indigo-700 mb-2">Speaker Framing</h4>
+                            <p class="text-xs text-slate-600">Zooms in on the active speaker. Use for presentations or structured dialogue.</p>
+                        </div>
+                        <div class="border border-slate-200 rounded-lg p-4">
+                            <h4 class="font-bold text-indigo-700 mb-2">People Framing</h4>
+                            <p class="text-xs text-slate-600">Composite view (gallery) of up to 6 individuals. Best for hybrid equity.</p>
+                        </div>
+                        <div class="border border-slate-200 rounded-lg p-4">
+                            <h4 class="font-bold text-indigo-700 mb-2">Presenter Tracking</h4>
+                            <p class="text-xs text-slate-600">Follows a presenter in a specific zone. Requires E70/E60 camera.</p>
                         </div>
                     </div>
 
-                    <h3 class="text-xl font-bold text-slate-800 mb-4">Connecting External Audio (DSP/USB)</h3>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Tuning Tracking</h2>
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 mb-8">
+                        <h3 class="font-bold text-sm text-slate-800 mb-3">Settings Location: Audio/Video > Video Inputs</h3>
+                        <ul class="space-y-3 text-sm text-slate-600">
+                            <li><strong>Tracking Speed:</strong> Set to <em>Slow</em> for executive rooms (less jarring), <em>Fast</em> for lively debates.</li>
+                            <li><strong>Framing Size:</strong> <em>Tight</em> for head-and-shoulders, <em>Wide</em> for upper body context.</li>
+                            <li><strong>DirectorAI Perimeter:</strong> Define the depth/width of the tracking zone to exclude glass walls or hallways.</li>
+                        </ul>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Multi-Camera Setup (G7500/G62)</h2>
                     <p class="text-sm text-slate-600 mb-4">
-                        For larger rooms using G7500 or Studio X50/X52/X70, you can connect external audio solutions.
+                        When using multiple cameras (e.g., E70s) for large rooms:
                     </p>
-                    <ul class="list-disc ml-5 mb-6 text-sm text-slate-600 space-y-2">
-                        <li><strong>USB Audio:</strong> Connect compatible USB DSPs (Shure, Biamp, QSC) to the USB-A port. Enable <strong>Enable USB Audio</strong> in the Web UI.</li>
-                        <li><strong>IP Microphones:</strong> Connect Poly IP Table/Ceiling mics to the LLN port (G7500) or via PoE switch (G62).</li>
-                        <li><strong>Trio C60:</strong> Pair up to 3 Trio C60s for audio expansion via the network.</li>
-                    </ul>
+                    <ol class="list-decimal ml-5 text-sm text-slate-600 space-y-2">
+                        <li>Connect cameras via LLN (IP) or USB.</li>
+                        <li>In the Web UI, go to <strong>Audio/Video > Video Inputs</strong>.</li>
+                        <li>Assign cameras to roles (People vs Content).</li>
+                        <li>Use <strong>Camera Priority</strong> to determine which camera acts as the primary view when tracking is idle.</li>
+                    </ol>
                 </article>
 
                 <!-- CONTENT: Mounting & Placement -->
                 <article id="mounting" class="content-section">
                     <h1 class="text-3xl font-bold text-slate-900 mb-6">Mounting & Room Placement</h1>
                     
-                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Placement Guidelines</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                            <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-                                <i data-lucide="monitor" class="w-5 h-5 text-indigo-600"></i> Video Bar Placement
-                            </h3>
-                            <ul class="space-y-2 text-sm text-slate-600">
-                                <li><strong>Height:</strong> Ideally eye-level with seated participants. Typically just above or below the display.</li>
-                                <li><strong>Inverted Mounting:</strong> Studio X30 supports inverted mounting (below display). X50, X52, X70, X72 must be mounted upright.</li>
-                                <li><strong>Clearance:</strong> Ensure cables are not pinched and airflow vents are not blocked.</li>
-                            </ul>
-                        </div>
-                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                            <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-                                <i data-lucide="thermometer" class="w-5 h-5 text-indigo-600"></i> Ventilation
-                            </h3>
-                            <ul class="space-y-2 text-sm text-slate-600">
-                                <li><strong>G7500 / G62:</strong> These modular codecs generate heat. Do not stack equipment directly on top.</li>
-                                <li><strong>Studio X Family:</strong> These are fanless units that dissipate heat through the chassis. Ensure they are not enclosed in tight cabinetry without airflow.</li>
-                            </ul>
-                        </div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Video Bar Placement</h2>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mb-8">
+                        <ul class="space-y-4 text-sm text-slate-600">
+                            <li class="flex gap-3">
+                                <i data-lucide="arrow-up-down" class="w-5 h-5 text-indigo-600 shrink-0"></i>
+                                <div>
+                                    <strong>Height:</strong> Ideally eye-level with seated participants (approx 48").
+                                    <br><span class="text-xs text-slate-500">Placement too high (>7ft) causes "security cam" angles. Placement too low looks up noses.</span>
+                                </div>
+                            </li>
+                            <li class="flex gap-3">
+                                <i data-lucide="monitor" class="w-5 h-5 text-indigo-600 shrink-0"></i>
+                                <div>
+                                    <strong>Orientation:</strong>
+                                    <ul class="list-disc ml-4 mt-1">
+                                        <li><strong>Studio X30:</strong> Supports inverted mounting (below display).</li>
+                                        <li><strong>Studio X50 / X52 / X70 / X72:</strong> Must be mounted UPRIGHT. Do not invert.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
 
-                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Mounting Options</h2>
-                    <div class="overflow-x-auto mb-8">
-                        <table class="w-full">
-                            <thead class="bg-slate-50">
-                                <tr>
-                                    <th class="px-4 py-2 border-b">Device</th>
-                                    <th class="px-4 py-2 border-b">Included Mount</th>
-                                    <th class="px-4 py-2 border-b">Optional Mounts</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-sm text-slate-700">
-                                <tr>
-                                    <td class="px-4 py-2 border-b font-bold">Studio X30</td>
-                                    <td class="px-4 py-2 border-b">Monitor Clamp</td>
-                                    <td class="px-4 py-2 border-b">Wall Mount, VESA Mount</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-2 border-b font-bold">Studio X50 / X52</td>
-                                    <td class="px-4 py-2 border-b">Wall Mount</td>
-                                    <td class="px-4 py-2 border-b">VESA Mount, Table Stand</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-2 border-b font-bold">Studio X70 / X72</td>
-                                    <td class="px-4 py-2 border-b">Wall Mount</td>
-                                    <td class="px-4 py-2 border-b">VESA Mount, Table Stand</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-2 border-b font-bold">Studio G62</td>
-                                    <td class="px-4 py-2 border-b">Magnetic Feet</td>
-                                    <td class="px-4 py-2 border-b">Wall/Rack Mounting Plate</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">Codec Ventilation</h2>
+                    <div class="admonition admonition-warning">
+                        <strong>Important:</strong> Poly G7500 and Studio G62 are modular codecs that generate heat.
                     </div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Do not stack these units directly on top of other warm equipment. Ensure at least 1U of rack space or free airflow if mounted behind a display.
+                    </p>
                 </article>
 
                 <!-- CONTENT: Hardware Overview -->
@@ -504,10 +520,6 @@
                 <!-- CONTENT: Cabling -->
                 <article id="cabling" class="content-section">
                     <h1 class="text-3xl font-bold text-slate-900 mb-6">Cabling & Connections</h1>
-                    <div class="admonition admonition-tip">
-                        <div class="font-bold mb-1 flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4"></i> Best Practice</div>
-                        Always make all cable connections <strong>before</strong> plugging the system into the power outlet. The system will boot automatically once power is applied.
-                    </div>
 
                     <h3 class="text-xl font-bold text-slate-800 mb-4">1. Connecting Monitors (HDMI)</h3>
                     <p class="text-sm text-slate-600 mb-4">
@@ -528,17 +540,17 @@
                     </div>
 
                     <h3 class="text-xl font-bold text-slate-800 mb-4">3. Connecting the Touch Controller (TC10 / TC8)</h3>
+                    <div class="admonition admonition-danger">
+                        <div class="font-bold mb-1 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4"></i> Critical Network Rule</div>
+                        <strong>Do NOT plug the TC10/TC8 directly into the G7500 LLN ports.</strong> This is an unsupported configuration. The controller must be on the primary LAN to pair correctly with the system and access calendar services.
+                    </div>
                     <p class="text-sm text-slate-600 mb-2">
                         The touch controller is powered via PoE (Power over Ethernet).
                     </p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                         <div class="border border-slate-200 p-4 rounded-lg">
                             <h4 class="font-bold text-indigo-700 mb-2">Method A: Direct to Room Port</h4>
-                            <p class="text-xs text-slate-500">Connect the TC10/TC8 to a PoE-enabled wall jack on the <strong>same subnet</strong> as the video bar. This is the most common deployment.</p>
-                        </div>
-                        <div class="border border-slate-200 p-4 rounded-lg">
-                            <h4 class="font-bold text-indigo-700 mb-2">Method B: Direct to G7500 LLN</h4>
-                            <p class="text-xs text-slate-500">If using a G7500, you can plug the controller directly into one of the <strong>LLN</strong> ports on the back of the codec.</p>
+                            <p class="text-xs text-slate-500">Connect the TC10/TC8 to a PoE-enabled wall jack on the <strong>same subnet</strong> as the video bar. This is the correct method for all systems (G7500, G62, Studio X).</p>
                         </div>
                     </div>
 
